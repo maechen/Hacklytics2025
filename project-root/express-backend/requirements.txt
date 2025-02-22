@@ -1,0 +1,37 @@
+# Core dependencies
+numpy>=1.23.5
+tqdm>=4.66.1
+opencv-python-headless>=4.7.0
+supervision>=0.23.0
+json5>=0.9.14
+
+# GPU-specific
+torch>=2.2.1
+torchvision>=0.17.1
+onnxruntime-gpu==1.18.0  # Must match CUDA version
+inference-sdk[gpu,yolo-world,clip,gaze,grounding-dino]>=0.9.16
+
+# Roboflow Sports
+git+https://github.com/roboflow/sports.git
+
+# Data processing
+scipy>=1.11.4
+pandas>=2.1.4
+
+# Hugging Face Ecosystem
+huggingface_hub>=0.20.2
+transformers>=4.38.2
+accelerate>=0.27.2
+
+# LangChain
+langchain>=0.1.16
+langchain-community>=0.0.29
+
+# CLI & Utilities
+argparse>=1.4.0
+python-dotenv>=1.0.0
+gdown>=5.1.0
+
+# Production
+gunicorn>=21.2.0
+gevent>=23.9.1
