@@ -7,16 +7,20 @@
 # update possession info
 
 import math
+import json
 
-POSSESSION_THRESHOLD = 1.5  # minimum distance between player and ball to be considered possession
-MIN_MOVEMENT = 0.1 # help ignore small movements
+def clean_data(input_json):
+    with open(input_json) as f:
+        data = json.load(f)
 
-def track_possession(frames):
+    POSSESSION_THRESHOLD = 1.5  # minimum distance between player and ball to be considered possession
+    MIN_MOVEMENT = 0.1 # help ignore small movements
+
     events = []
     current_possession = None
     prev_positions = {}  # {player_id: (x, y, time)}
     
-    for frame in frames:
+    for frame in data.items():
         ball = frame['ball']
         players = frame['players']
         
