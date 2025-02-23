@@ -4,11 +4,11 @@
 Sports unite cultures, but complex and unfamiliar rules can intimidate newcomers. Events like the Super Bowl or Olympics mark a significant cultural moment for bonding and entertainment, especially in the United States. However, many individuals feel left out and burdensome to friends for constantly asking what’s going on in the game. To tackle this issue, Sportif-AI was created to provide Computer Vision and Generative AI-powered sports analysis to educate anyone about the rules of the game. 
 
 ## What it does
-By training object detection models and using feature engineering, Sportif-AI detects gameplay events such as when ball possession shifts (ball passes and steals). This data is then fed into a fine-tuned GPT-2 model from Hugging Face to generate concise sports explanations that anybody can easily understand. Thus, Sportif-AI can also provide contextualized insights into niche sports such as cricket or curling to help further our goal of transforming passive watching into active learning. 
+By training object detection models and using feature engineering, Sportif-AI detects gameplay events such as when ball possession shifts (ball passes and steals). This data is then fed into a OpenAI's GPT-4o mini API to generate concise sports explanations that anybody can easily understand. Thus, Sportif-AI can also provide contextualized insights into niche sports such as cricket or curling to help further our goal of transforming passive watching into active learning. 
 > #### Key features:
 > * Multi-Object Tracking: Identifies players, referees, and balls using bounding boxes and trajectories.
 > * Spatiotemporal Analysis: Normalizes player/ball coordinates relative to field key points (penalty areas, corners).
-> * Contextualized LLM Commentary: Uses a fine-tuned GPT-2 model to explain events (“Player 10 passed backward to evade defenders – a common strategy to reset attacking momentum”).
+> * Contextualized LLM Commentary: Uses OpenAI's GPT-4o mini API to explain events (“Player 10 passed backward to evade defenders – a common strategy to reset attacking momentum”).
 > #### Tech Stack
 > * Dataset Curation: Kaggle, DFL Bundesliga clips (460 videos of 30 seconds).
 > * Computer Vision: YOLOv8x (player/ball detection), Homography (field key points detection), ByteTrack (multi-object tracking), Roboflow (dataset preprocessing).
@@ -26,7 +26,7 @@ By training object detection models and using feature engineering, Sportif-AI de
 >>> We feature-engineered a minimalistic schema tracking ball coordinates, possession states (via Euclidean distance to nearest player), and player's team affiliations. By collapsing frame-by-frame data into sequential "possession events," we reduced JSON payloads by 70%, manipulating gameplay into a timeline of critical moments into an array of json objects, a compact representation that retained complex context.
 
 > #### Gen AI
->> Generative AI’s power lies in its ability to humanize structured data. We designed a schema-to-story pipeline where possession events are fed into a fine-tuned GPT-2 model (Hugging Face Transformers) via dynamic prompts. Unlike traditional LLM inputs (unstructured text), our JSON schema provided explicit spatial and tactical context, enabling the model to generate rule-aware explanations of the game like: “Player 10 executed a quick pass to Player 7 to avoid a tackle—a ‘give-and-go’ tactic often used to break defensive lines.”
+>> Generative AI’s power lies in its ability to humanize structured data. We designed a schema-to-story pipeline where possession events are fed into OpenAI's GPT-4o mini API. Unlike traditional LLM inputs (unstructured text), our JSON schema provided explicit spatial and tactical context, enabling the model to generate rule-aware explanations of the game like: “Player 10 executed a quick pass to Player 7 to avoid a tackle—a ‘give-and-go’ tactic often used to break defensive lines.”
 
 > #### UI/UX
 >> To mirror the familiarity of platforms like ESPN, we built a Next.js interface with a split-screen layout: live video stream on the left, AI commentary on the right. 
