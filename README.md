@@ -60,6 +60,9 @@ Through this project, we gained hands-on experience with object detection models
 
 # Contributers
 Mae Chen, @maechen
+
 Kate Jeong, @katejeongg
+
 Abhushan Pradhan, @apradhan7678
+
 Stuthi Bhat, @stuthibhat
