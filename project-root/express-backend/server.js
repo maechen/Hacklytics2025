@@ -53,7 +53,10 @@ app.post("/api", async (req, res) => {
 
   if (req.body.timestamp !== undefined) {
     numFrames = numFrames.filter((frame) => {
-      return parseInt(frame) < req.body.timestamp * 30;
+      return (
+        parseInt(frame) >= (req.body.timestamp - 15) * 30 &&
+        parseInt(frame) <= req.body.timestamp * 30
+      );
     });
   }
   console.log(numFrames);
