@@ -9,10 +9,11 @@
 import math
 import json
 
-def clean_data(input_json):
-    with open(input_json) as f:
-        data = json.load(f)
+def clean_data():
+    with open('soccer_analysis.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
 
+    print(data)
     POSSESSION_THRESHOLD = 1.5  # minimum distance between player and ball to be considered possession
     MIN_MOVEMENT = 0.1 # help ignore small movements
 
@@ -62,5 +63,9 @@ def clean_data(input_json):
             closest_player['y'],
             frame['time']
         )
+
+        print(events)
     
     return events
+
+clean_data()
