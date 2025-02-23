@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { useEvents } from "./_hooks/useEvents";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(true);
@@ -19,15 +20,7 @@ export default function Home() {
   // Show/hide the info popup
   const [showInfo, setShowInfo] = useState(false);
 
-  // Two commentary strings
-  const firstInsight = `PPlayer 10 makes a quick pass to Player 15, trying 
-  to advance the attack. But Player 15 is immediately pressured by defenders 
-  and has no space. He quickly plays it back to Player 10 to keep possession and 
-  look for a better opening.`;
-  const secondInsight = `AAt midfield, Player 22 connects with Player 10, looking 
-  for an opening. Under pressure, Player 10 returns the pass to avoid losing possession. 
-  Player 22 then launches a powerful kick, sending the ball deep toward the opposing goal. 
-  Player 12 sprints to get on the end of it but collides with Player 16 as they battle for control.`;
+  const { events, loading, reFetchEvents } = useEvents(timeWatched);
 
   // Handle main video play
   const handlePlay = () => {
@@ -55,22 +48,17 @@ export default function Home() {
         clearInterval(interval);
         setTyping(false);
       }
-    }, 40);
+    }, 20);
   };
 
-  // "What's Happening?" logic
-  const handleWhatsHappening = () => {
-    // First commentary at >=15s
-    if (insightIndex === 0 && timeWatched >= 15) {
-      typeText(firstInsight);
-      setInsightIndex(1);
+  console.log(events);
+
+  useEffect(() => {
+    if (events && events.analysis && timeWatched > 0) {
+      typeText(events.analysis);
+      setInsightIndex(Math.floor(timeWatched / 15));
     }
-    // Second commentary at >=30s
-    else if (insightIndex === 1 && timeWatched >= 30) {
-      typeText(secondInsight);
-      setInsightIndex(2);
-    }
-  };
+  }, [events]);
 
   // Disable button until 15s for first, 30s for second
   const isDisabled =
@@ -98,7 +86,9 @@ export default function Home() {
 
         {/* Sidebar - Explore More */}
         <aside
-          className={`${styles.sidebar} ${showSidebar ? styles.open : styles.closed}`}
+          className={`${styles.sidebar} ${
+            showSidebar ? styles.open : styles.closed
+          }`}
         >
           <button
             className={styles.insightButton}
@@ -182,7 +172,7 @@ export default function Home() {
               controls={!isPlaying}
               onTimeUpdate={handleTimeUpdate}
             >
-              <source src="/test.mp4" type="video/mp4" />
+              <source src="/vid.mp4" type="video/mp4" />
             </video>
 
             {!isPlaying && (
@@ -209,10 +199,10 @@ export default function Home() {
         <aside className={styles.chatBox}>
           <button
             className={styles.insightButton}
-            onClick={handleWhatsHappening}
+            onClick={() => reFetchEvents()}
             disabled={isDisabled}
           >
-            What's Happening?
+            {!loading ? "What's Happening?" : "Loading..."}
           </button>
           <p className={styles.gameInsight}>
             {gameInsight}
@@ -228,14 +218,20 @@ export default function Home() {
 
       {/* Info Popup Overlay */}
       {showInfo && (
-        <div className={styles.infoPopupOverlay} onClick={() => setShowInfo(false)}>
-          <div className={styles.infoPopup} onClick={(e) => e.stopPropagation()}>
+        <div
+          className={styles.infoPopupOverlay}
+          onClick={() => setShowInfo(false)}
+        >
+          <div
+            className={styles.infoPopup}
+            onClick={(e) => e.stopPropagation()}
+          >
             <h2>About Sportif-AI</h2>
             <p>
-              Sportif-AI is dedicated to harnessing data-driven insights
-              and AI technology to enhance sports analysis, storytelling,
-              and fan engagement. Our mission is to bring a new level of
-              insight and excitement to sports enthusiasts worldwide.
+              Sportif-AI is dedicated to harnessing data-driven insights and AI
+              technology to enhance sports analysis, storytelling, and fan
+              engagement. Our mission is to bring a new level of insight and
+              excitement to sports enthusiasts worldwide.
             </p>
             <button
               className={styles.closePopupButton}

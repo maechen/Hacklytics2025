@@ -16,7 +16,7 @@ def clean_response(raw_response):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: promptclean.py <raw_response_file>")
+        print("Usage: prompt_clean.py <raw_response_file>")
         sys.exit(1)
     
     with open(sys.argv[1], 'r') as f:
